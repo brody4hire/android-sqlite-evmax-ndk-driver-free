@@ -1,4 +1,4 @@
-# android-sqlite-evmax-ndk-driver-free build - EU support 2023 version branch
+# android-sqlite-evmax-ndk-driver-free JAR build with EU support
 
 Provides Android NDK build of SQLite with an optimized JSON-based data interface and workarounds for large SELECT results and slash character issue with Capacitor, with a low-level API for Cordova SQLite evmax plugin versions.
 
