@@ -34,7 +34,9 @@
 
 /* Include ICU headers */
 #include <unicode/utypes.h>
+#if 0
 #include <unicode/uregex.h>
+#endif
 #include <unicode/ustring.h>
 #include <unicode/ucol.h>
 
@@ -60,8 +62,10 @@ static void icuFunctionError(
   UErrorCode e                 /* Error code returned by ICU function */
 ){
   char zBuf[128];
+  /* XXX XXX
   sqlite3_snprintf(128, zBuf, "ICU error: %s(): %s", zName, u_errorName(e));
   zBuf[127] = '\0';
+  // XXX */
   sqlite3_result_error(pCtx, zBuf, -1);
 }
 
@@ -119,6 +123,7 @@ static const unsigned char icuUtf8Trans1[] = {
 ** a "LIKE" expression. Return true (1) if they are the same and 
 ** false (0) if they are different.
 */
+#if 0
 static int icuLikeCompare(
   const uint8_t *zPattern,   /* LIKE pattern */
   const uint8_t *zString,    /* The UTF-8 string to compare against */
@@ -193,6 +198,7 @@ static int icuLikeCompare(
 
   return *zString==0;
 }
+#endif
 
 /*
 ** Implementation of the like() SQL function.  This function implements
@@ -207,6 +213,7 @@ static int icuLikeCompare(
 **
 ** is mapped to like(B, A, E).
 */
+#if 0
 static void icuLikeFunc(
   sqlite3_context *context, 
   int argc, 
@@ -245,15 +252,18 @@ static void icuLikeFunc(
     sqlite3_result_int(context, icuLikeCompare(zA, zB, uEsc));
   }
 }
+#endif
 
 /*
 ** Function to delete compiled regexp objects. Registered as
 ** a destructor function with sqlite3_set_auxdata().
 */
+#if 0
 static void icuRegexpDelete(void *p){
   URegularExpression *pExpr = (URegularExpression *)p;
   uregex_close(pExpr);
 }
+#endif
 
 /*
 ** Implementation of SQLite REGEXP operator. This scalar function takes
@@ -274,6 +284,7 @@ static void icuRegexpDelete(void *p){
 **     uregex_matches()
 **     uregex_close()
 */
+#if 0
 static void icuRegexpFunc(sqlite3_context *p, int nArg, sqlite3_value **apArg){
   UErrorCode status = U_ZERO_ERROR;
   URegularExpression *pExpr;
@@ -330,6 +341,7 @@ static void icuRegexpFunc(sqlite3_context *p, int nArg, sqlite3_value **apArg){
   /* Return 1 or 0. */
   sqlite3_result_int(p, res ? 1 : 0);
 }
+#endif
 
 /*
 ** Implementations of scalar functions for case mapping - upper() and 
@@ -508,7 +520,7 @@ int sqlite3IcuInit(sqlite3 *db){
   } scalars[] = {
     {"icu_load_collation",  2, SQLITE_UTF8,                1, icuLoadCollation},
 #if !defined(SQLITE_CORE) || defined(SQLITE_ENABLE_ICU)
-    {"regexp", 2, SQLITE_ANY|SQLITE_DETERMINISTIC,         0, icuRegexpFunc},
+    //{"regexp", 2, SQLITE_ANY|SQLITE_DETERMINISTIC,         0, icuRegexpFunc},
     {"lower",  1, SQLITE_UTF16|SQLITE_DETERMINISTIC,       0, icuCaseFunc16},
     {"lower",  2, SQLITE_UTF16|SQLITE_DETERMINISTIC,       0, icuCaseFunc16},
     {"upper",  1, SQLITE_UTF16|SQLITE_DETERMINISTIC,       1, icuCaseFunc16},
@@ -517,8 +529,10 @@ int sqlite3IcuInit(sqlite3 *db){
     {"lower",  2, SQLITE_UTF8|SQLITE_DETERMINISTIC,        0, icuCaseFunc16},
     {"upper",  1, SQLITE_UTF8|SQLITE_DETERMINISTIC,        1, icuCaseFunc16},
     {"upper",  2, SQLITE_UTF8|SQLITE_DETERMINISTIC,        1, icuCaseFunc16},
+#if 0
     {"like",   2, SQLITE_UTF8|SQLITE_DETERMINISTIC,        0, icuLikeFunc},
     {"like",   3, SQLITE_UTF8|SQLITE_DETERMINISTIC,        0, icuLikeFunc},
+#endif
 #endif /* !defined(SQLITE_CORE) || defined(SQLITE_ENABLE_ICU) */
   };
   int rc = SQLITE_OK;
