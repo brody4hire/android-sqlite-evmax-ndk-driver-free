@@ -15,4 +15,4 @@
 
 #include "sqlite3_regexp.c"
 
-#include "icu.c"
+// #include "icu.c"
