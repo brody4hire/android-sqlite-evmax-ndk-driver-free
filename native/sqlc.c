@@ -11,6 +11,8 @@
 
 #include "sqlite3_base64.h"
 
+#include "sqliteicu.h"
+
 #define BASE_HANDLE_OFFSET 0 /* (no conversion offset) */
 
 #ifdef SQLC_KEEP_ANDROID_LOG

@@ -14,3 +14,5 @@
 #include "sqlc.c"
 
 #include "sqlite3_regexp.c"
+
+#include "icu.c"
