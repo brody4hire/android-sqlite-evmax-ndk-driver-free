@@ -37,6 +37,7 @@
 #if 0
 #include <unicode/uregex.h>
 #endif
+#include <unicode/uchar.h>
 #include <unicode/ustring.h>
 #include <unicode/ucol.h>
 
@@ -123,7 +124,6 @@ static const unsigned char icuUtf8Trans1[] = {
 ** a "LIKE" expression. Return true (1) if they are the same and 
 ** false (0) if they are different.
 */
-#if 0
 static int icuLikeCompare(
   const uint8_t *zPattern,   /* LIKE pattern */
   const uint8_t *zString,    /* The UTF-8 string to compare against */
@@ -198,7 +198,6 @@ static int icuLikeCompare(
 
   return *zString==0;
 }
-#endif
 
 /*
 ** Implementation of the like() SQL function.  This function implements
@@ -213,7 +212,6 @@ static int icuLikeCompare(
 **
 ** is mapped to like(B, A, E).
 */
-#if 0
 static void icuLikeFunc(
   sqlite3_context *context, 
   int argc, 
@@ -252,7 +250,6 @@ static void icuLikeFunc(
     sqlite3_result_int(context, icuLikeCompare(zA, zB, uEsc));
   }
 }
-#endif
 
 /*
 ** Function to delete compiled regexp objects. Registered as
@@ -529,10 +526,8 @@ int sqlite3IcuInit(sqlite3 *db){
     {"lower",  2, SQLITE_UTF8|SQLITE_DETERMINISTIC,        0, icuCaseFunc16},
     {"upper",  1, SQLITE_UTF8|SQLITE_DETERMINISTIC,        1, icuCaseFunc16},
     {"upper",  2, SQLITE_UTF8|SQLITE_DETERMINISTIC,        1, icuCaseFunc16},
-#if 0
     {"like",   2, SQLITE_UTF8|SQLITE_DETERMINISTIC,        0, icuLikeFunc},
     {"like",   3, SQLITE_UTF8|SQLITE_DETERMINISTIC,        0, icuLikeFunc},
-#endif
 #endif /* !defined(SQLITE_CORE) || defined(SQLITE_ENABLE_ICU) */
   };
   int rc = SQLITE_OK;
