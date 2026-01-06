@@ -2,9 +2,9 @@
 //#include "sqliteicu.h"
 
 
-#include "sqlite3.h"
+// #include "sqlite3.h"
 
-#include "icu.c"
+// #include "icu.c"
 #include "sqlite3.c"
 
 #include "cencode.c"
@@ -21,4 +21,8 @@
 
 #include "sqlite3_regexp.c"
 
+#define SQLITE_ENABLE_ICU
+
+// XXX XXX
 // #include "icu.c"
+#include "../icu.c"
