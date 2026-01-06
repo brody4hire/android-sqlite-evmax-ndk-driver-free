@@ -1,4 +1,10 @@
 
+//#include "sqliteicu.h"
+
+
+#include "sqlite3.h"
+
+#include "icu.c"
 #include "sqlite3.c"
 
 #include "cencode.c"
