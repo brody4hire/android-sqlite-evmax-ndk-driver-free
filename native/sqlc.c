@@ -69,6 +69,8 @@ sqlc_handle_t sqlc_ev_db_open(sqlc_handle_t dboc, const char * filename, int fla
 
   sqlite3_base64_init(d1);
 
+  sqlite3IcuInit(d1);
+
   return HANDLE_FROM_VP(d1);
 }
 
