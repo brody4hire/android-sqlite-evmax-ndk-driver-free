@@ -34,9 +34,13 @@
 
 /* Include ICU headers */
 #include <unicode/utypes.h>
+#if 0 // AVOID NDK BUILD ISSUE WITH REGEX & BUILT-IN ICU4C
 #include <unicode/uregex.h>
+#endif // AVOID NDK BUILD ISSUE WITH REGEX & BUILT-IN ICU4C
 #include <unicode/ustring.h>
 #include <unicode/ucol.h>
+// WORKAROUND RE: AVOID NDK BUILD ISSUE WITH REGEX & BUILT-IN ICU4C
+#include <unicode/uchar.h>
 
 #include <assert.h>
 
@@ -246,6 +250,7 @@ static void icuLikeFunc(
   }
 }
 
+#if 0 // AVOID NDK BUILD ISSUE WITH REGEX & BUILT-IN ICU4C
 /*
 ** Function to delete compiled regexp objects. Registered as
 ** a destructor function with sqlite3_set_auxdata().
@@ -254,7 +259,9 @@ static void icuRegexpDelete(void *p){
   URegularExpression *pExpr = (URegularExpression *)p;
   uregex_close(pExpr);
 }
+#endif // AVOID NDK BUILD ISSUE WITH REGEX & BUILT-IN ICU4C
 
+#if 0 // AVOID NDK BUILD ISSUE WITH REGEX & BUILT-IN ICU4C
 /*
 ** Implementation of SQLite REGEXP operator. This scalar function takes
 ** two arguments. The first is a regular expression pattern to compile
@@ -331,6 +338,7 @@ static void icuRegexpFunc(sqlite3_context *p, int nArg, sqlite3_value **apArg){
   /* Return 1 or 0. */
   sqlite3_result_int(p, res ? 1 : 0);
 }
+#endif // AVOID NDK BUILD ISSUE WITH REGEX & BUILT-IN ICU4C
 
 /*
 ** Implementations of scalar functions for case mapping - upper() and 
@@ -414,6 +422,7 @@ static void icuCaseFunc16(sqlite3_context *p, int nArg, sqlite3_value **apArg){
 
 #endif /* !defined(SQLITE_CORE) || defined(SQLITE_ENABLE_ICU) */
 
+#if 0 // AVOID NDK BUILD ISSUE WITH COLLATION & BUILT-IN ICU4C ON ANDROID API 31
 /*
 ** Collation sequence destructor function. The pCtx argument points to
 ** a UCollator structure previously allocated using ucol_open().
@@ -422,7 +431,9 @@ static void icuCollationDel(void *pCtx){
   UCollator *p = (UCollator *)pCtx;
   ucol_close(p);
 }
+#endif // AVOID NDK BUILD ISSUE WITH COLLATION & BUILT-IN ICU4C ON ANDROID API 31
 
+#if 0 // AVOID NDK BUILD ISSUE WITH COLLATION & BUILT-IN ICU4C ON ANDROID API 31
 /*
 ** Collation sequence comparison function. The pCtx argument points to
 ** a UCollator structure previously allocated using ucol_open().
@@ -445,7 +456,9 @@ static int icuCollationColl(
   assert(!"Unexpected return value from ucol_strcoll()");
   return 0;
 }
+#endif // AVOID NDK BUILD ISSUE WITH COLLATION & BUILT-IN ICU4C ON ANDROID API 31
 
+#if 0 // AVOID NDK BUILD ISSUE WITH COLLATION & BUILT-IN ICU4C ON ANDROID API 31
 /*
 ** Implementation of the scalar function icu_load_collation().
 **
@@ -527,6 +540,7 @@ static void icuLoadCollation(
     sqlite3_result_error(p, "Error registering collation function", -1);
   }
 }
+#endif // AVOID NDK BUILD ISSUE WITH COLLATION & BUILT-IN ICU4C ON ANDROID API 31
 
 /*
 ** Register the ICU extension functions with database db.
@@ -540,10 +554,14 @@ int sqlite3IcuInit(sqlite3 *db){
     unsigned char iContext;                   /* sqlite3_user_data() context */
     void (*xFunc)(sqlite3_context*,int,sqlite3_value**);
   } scalars[] = {
+#if 0 // AVOID NDK BUILD ISSUE WITH COLLATION & BUILT-IN ICU4C ON ANDROID API 31
     {"icu_load_collation",2,SQLITE_UTF8|SQLITE_DIRECTONLY,1, icuLoadCollation},
     {"icu_load_collation",3,SQLITE_UTF8|SQLITE_DIRECTONLY,1, icuLoadCollation},
+#endif // AVOID NDK BUILD ISSUE WITH COLLATION & BUILT-IN ICU4C ON ANDROID API 31
 #if !defined(SQLITE_CORE) || defined(SQLITE_ENABLE_ICU)
+#if 0 // AVOID NDK BUILD ISSUE WITH REGEX & BUILT-IN ICU4C
     {"regexp", 2, SQLITE_ANY|SQLITEICU_EXTRAFLAGS,         0, icuRegexpFunc},
+#endif // AVOID NDK BUILD ISSUE WITH REGEX & BUILT-IN ICU4C
     {"lower",  1, SQLITE_UTF16|SQLITEICU_EXTRAFLAGS,       0, icuCaseFunc16},
     {"lower",  2, SQLITE_UTF16|SQLITEICU_EXTRAFLAGS,       0, icuCaseFunc16},
     {"upper",  1, SQLITE_UTF16|SQLITEICU_EXTRAFLAGS,       1, icuCaseFunc16},
