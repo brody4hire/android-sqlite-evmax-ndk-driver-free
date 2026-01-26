@@ -188,8 +188,9 @@ int sqlc_db_close(sqlc_handle_t db)
 
 // TBD What if MAX_RR_CHUNKS limit is exceeded (??)
 
-// XXX TBD (...) ???:
-#define RR_CHUNK_CUTOFF 10000
+#define DEFAULT_RESULT_CHUNK_CUTOFF_SIZE (10 * 1000)
+
+static int result_chunk_cutoff_size = DEFAULT_RESULT_CHUNK_CUTOFF_SIZE;
 
 struct qc_s {
   sqlite3 * mydb;
@@ -512,7 +513,7 @@ const char * ee(sqlc_handle_t qc, const char * batch_json, int ignored)
         rrlen += 9;
 
         do {
-          if (rrlen >= RR_CHUNK_CUTOFF) {
+          if (rrlen >= result_chunk_cutoff_size) {
             {
               strcpy(rr+rrlen, "\"extra\"]");
               myqc->cleanup2 = NULL;
