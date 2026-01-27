@@ -73,3 +73,5 @@ sqlc_handle_t sqlc_evplus_db_new_qc(sqlc_handle_t db);
 const char * sqlc_evplus_qc_execute(sqlc_handle_t qc, const char * batch_json);
 
 void sqlc_evplus_qc_finalize(sqlc_handle_t qc);
+
+void sqlc_evmax_set_result_chunk_cutoff_size(int cutoff);
